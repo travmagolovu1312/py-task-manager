@@ -27,6 +27,12 @@ class WorkerCreationForm(UserCreationForm):
         )
 
 
+class WorkerUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Worker
+        fields = ["first_name", "last_name", "email", "position"]
+
+
 class TaskSearchForm(forms.Form):
     name = forms.CharField(
         max_length=255,

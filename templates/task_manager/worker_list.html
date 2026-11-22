@@ -6,6 +6,11 @@
     <a href="{% url 'task_manager:worker-create' %}" class="btn btn-primary">Create</a>
   </h1>
 
+  <form method="get" action="" class="form-inline mb-3">
+    {{ search_form|crispy }}
+    <input type="submit" value="Search" class="btn btn-secondary ml-2">
+  </form>
+
   {% if worker_list %}
     <table class="table">
       <tr>

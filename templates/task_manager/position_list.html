@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
-<form method="get" action="" class="form-inline mb-3">
-  {{ search_form|crispy }}
-  <input type="submit" value="Search" class="btn btn-secondary ml-2">
-</form>
+
 {% block content %}
   <h1>
     Position list
     <a href="{% url 'task_manager:position-create' %}" class="btn btn-primary">Create</a>
   </h1>
+
+  <form method="get" action="" class="form-inline mb-3">
+    {{ search_form|crispy }}
+    <input type="submit" value="Search" class="btn btn-secondary ml-2">
+  </form>
 
   {% if position_list %}
     <table class="table">

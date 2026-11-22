@@ -3,6 +3,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
+
 
 from task_manager.forms import (
     TaskForm,
@@ -10,7 +14,8 @@ from task_manager.forms import (
 TaskSearchForm,
 TaskTypeSearchForm,
 WorkerSearchForm,
-PositionSearchForm,)
+PositionSearchForm,
+WorkerUpdateForm)
 from task_manager.models import Position, Task, TaskType, Worker
 
 
@@ -75,7 +80,7 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
 
 
-class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
+class WorkerCreationView(LoginRequiredMixin, generic.CreateView):
     model = Worker
     form_class = WorkerCreationForm
     success_url = reverse_lazy("task_manager:worker-list")
@@ -83,13 +88,19 @@ class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
 
 class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Worker
-    fields = ["first_name", "last_name", "email", "position"]
+    form_class = WorkerUpdateForm
     success_url = reverse_lazy("task_manager:worker-list")
 
 
-class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
+class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
-    success_url = reverse_lazy("task_manager:worker-list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tasks = self.object.tasks.select_related("task_type")
+        context["completed_tasks"] = tasks.filter(is_completed=True)
+        context["uncompleted_tasks"] = tasks.filter(is_completed=False)
+        return context
 
 
 class PositionListView(LoginRequiredMixin, generic.ListView):
@@ -162,3 +173,28 @@ class TaskTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
 class TaskTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = TaskType
     success_url = reverse_lazy("task_manager:task-type-list")
+
+
+@login_required
+def toggle_task_completed(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    if request.method == "POST":
+        task.is_completed = not task.is_completed
+        task.save()
+    return HttpResponseRedirect(reverse("task_manager:task-detail", args=[pk]))
+
+
+@login_required
+def toggle_assign_to_task(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    if request.method == "POST":
+        if task.assignees.filter(pk=request.user.pk).exists():
+            task.assignees.remove(request.user)
+        else:
+            task.assignees.add(request.user)
+    return HttpResponseRedirect(reverse("task_manager:task-detail", args=[pk]))
+
+
+class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Worker
+    success_url = reverse_lazy("task_manager:worker-list")

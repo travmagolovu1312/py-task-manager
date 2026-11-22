@@ -6,16 +6,23 @@
     <a href="{% url 'task_manager:task-create' %}" class="btn btn-primary">Create</a>
   </h1>
 
+  <form method="get" action="" class="form-inline mb-3">
+    {{ search_form|crispy }}
+    <input type="submit" value="Search" class="btn btn-secondary ml-2">
+  </form>
+
   {% if task_list %}
     <table class="table">
       <tr><th>Name</th><th>Type</th><th>Priority</th><th>Deadline</th><th>Done</th></tr>
       {% for task in task_list %}
         <tr>
+          <tr {% if task.is_overdue %}class="table-danger"{% endif %}>
           <td><a href="{% url 'task_manager:task-detail' pk=task.id %}">{{ task.name }}</a></td>
           <td>{{ task.task_type.name }}</td>
           <td>{{ task.get_priority_display }}</td>
           <td>{{ task.deadline }}</td>
           <td>{{ task.is_completed|yesno:"Yes,No" }}</td>
+          </tr>
         </tr>
       {% endfor %}
     </table>
