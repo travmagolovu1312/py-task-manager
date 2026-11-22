@@ -11,11 +11,12 @@ from django.urls import reverse
 from task_manager.forms import (
     TaskForm,
     WorkerCreationForm,
-TaskSearchForm,
-TaskTypeSearchForm,
-WorkerSearchForm,
-PositionSearchForm,
-WorkerUpdateForm)
+    TaskSearchForm,
+    TaskTypeSearchForm,
+    WorkerSearchForm,
+    PositionSearchForm,
+    WorkerUpdateForm,
+)
 from task_manager.models import Position, Task, TaskType, Worker
 
 
@@ -73,11 +74,33 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
 class WorkerListView(LoginRequiredMixin, generic.ListView):
     model = Worker
     paginate_by = 5
-    queryset = Worker.objects.select_related("position")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = WorkerSearchForm(
+            initial={"username": self.request.GET.get("username", "")}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Worker.objects.select_related("position")
+        form = WorkerSearchForm(self.request.GET)
+        if form.is_valid():
+            return queryset.filter(
+                username__icontains=form.cleaned_data["username"]
+            )
+        return queryset
 
 
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tasks = self.object.tasks.select_related("task_type")
+        context["completed_tasks"] = tasks.filter(is_completed=True)
+        context["uncompleted_tasks"] = tasks.filter(is_completed=False)
+        return context
 
 
 class WorkerCreationView(LoginRequiredMixin, generic.CreateView):

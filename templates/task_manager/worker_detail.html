@@ -17,7 +17,9 @@
       <li>
         <a href="{% url 'task_manager:task-detail' pk=task.id %}">{{ task.name }}</a>
         (deadline: {{ task.deadline }})
-        {% if task.is_overdue %}<span class="badge badge-danger">Overdue</span>{% endif %}
+        {% if task.is_overdue %}
+          <span class="badge badge-danger">Overdue</span>
+        {% endif %}
       </li>
     {% empty %}
       <li>No uncompleted tasks.</li>
