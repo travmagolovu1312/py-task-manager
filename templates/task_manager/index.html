@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Task Manager</h1>
+  <p>Welcome, {{ user.username }}!</p>
+
+  <ul class="list-group">
+    <li class="list-group-item">
+      Tasks: {{ num_tasks }} (not completed: {{ num_uncompleted }})
+    </li>
+    <li class="list-group-item">Workers: {{ num_workers }}</li>
+    <li class="list-group-item">Positions: {{ num_positions }}</li>
+    <li class="list-group-item">Task types: {{ num_task_types }}</li>
+  </ul>
+{% endblock %}
