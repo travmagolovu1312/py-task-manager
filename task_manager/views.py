@@ -4,7 +4,13 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from task_manager.forms import TaskForm, WorkerCreationForm
+from task_manager.forms import (
+    TaskForm,
+    WorkerCreationForm,
+TaskSearchForm,
+TaskTypeSearchForm,
+WorkerSearchForm,
+PositionSearchForm,)
 from task_manager.models import Position, Task, TaskType, Worker
 
 
@@ -22,7 +28,20 @@ def index(request):
 class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
     paginate_by = 5
-    queryset = Task.objects.select_related("task_type")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = TaskSearchForm(
+            initial={"name": self.request.GET.get("name", "")}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Task.objects.select_related("task_type")
+        form = TaskSearchForm(self.request.GET)
+        if form.is_valid():
+            return queryset.filter(name__icontains=form.cleaned_data["name"])
+        return queryset
 
 
 class TaskDetailView(LoginRequiredMixin, generic.DetailView):
@@ -77,6 +96,39 @@ class PositionListView(LoginRequiredMixin, generic.ListView):
     model = Position
     paginate_by = 5
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = PositionSearchForm(
+            initial={"name": self.request.GET.get("name", "")}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Position.objects.all()
+        form = PositionSearchForm(self.request.GET)
+        if form.is_valid():
+            return queryset.filter(name__icontains=form.cleaned_data["name"])
+        return queryset
+
+
+class TaskTypeListView(LoginRequiredMixin, generic.ListView):
+    model = TaskType
+    paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = TaskTypeSearchForm(
+            initial={"name": self.request.GET.get("name", "")}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = TaskType.objects.all()
+        form = TaskTypeSearchForm(self.request.GET)
+        if form.is_valid():
+            return queryset.filter(name__icontains=form.cleaned_data["name"])
+        return queryset
+
 
 class PositionCreateView(LoginRequiredMixin, generic.CreateView):
     model = Position
@@ -93,11 +145,6 @@ class PositionUpdateView(LoginRequiredMixin, generic.UpdateView):
 class PositionDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Position
     success_url = reverse_lazy("task_manager:position-list")
-
-
-class TaskTypeListView(LoginRequiredMixin, generic.ListView):
-    model = TaskType
-    paginate_by = 5
 
 
 class TaskTypeCreateView(LoginRequiredMixin, generic.CreateView):

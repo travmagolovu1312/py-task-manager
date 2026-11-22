@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    {{ task.name }}
+    <a href="{% url 'task_manager:task-update' pk=task.id %}" class="btn btn-secondary">Update</a>
+    <a href="{% url 'task_manager:task-delete' pk=task.id %}" class="btn btn-danger">Delete</a>
+  </h1>
+
+  <p><strong>Type:</strong> {{ task.task_type.name }}</p>
+  <p><strong>Priority:</strong> {{ task.get_priority_display }}</p>
+  <p><strong>Deadline:</strong> {{ task.deadline }}</p>
+  <p><strong>Completed:</strong> {{ task.is_completed|yesno:"Yes,No" }}</p>
+  <p><strong>Description:</strong> {{ task.description|default:"-" }}</p>
+
+  <h4>Assignees</h4>
+  <ul>
+    {% for worker in task.assignees.all %}
+      <li><a href="{% url 'task_manager:worker-detail' pk=worker.id %}">{{ worker.username }}</a></li>
+    {% empty %}
+      <li>Nobody is assigned yet.</li>
+    {% endfor %}
+  </ul>
+
+  {# Кнопки виконання й призначення додайте на кроці 7, коли з'являться їхні URL #}
+{% endblock %}

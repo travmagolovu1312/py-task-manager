@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    {{ worker.username }}
+    <a href="{% url 'task_manager:worker-update' pk=worker.id %}" class="btn btn-secondary">Update</a>
+    <a href="{% url 'task_manager:worker-delete' pk=worker.id %}" class="btn btn-danger">Delete</a>
+  </h1>
+
+  <p><strong>Name:</strong> {{ worker.first_name }} {{ worker.last_name }}</p>
+  <p><strong>Email:</strong> {{ worker.email|default:"-" }}</p>
+  <p><strong>Position:</strong> {{ worker.position.name|default:"-" }}</p>
+
+  <h4>Tasks</h4>
+  <ul>
+    {% for task in worker.tasks.all %}
+      <li>
+        <a href="{% url 'task_manager:task-detail' pk=task.id %}">{{ task.name }}</a>
+        ({{ task.is_completed|yesno:"done,not done" }})
+      </li>
+    {% empty %}
+      <li>No tasks assigned.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
