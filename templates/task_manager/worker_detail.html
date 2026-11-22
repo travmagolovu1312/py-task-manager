@@ -11,15 +11,27 @@
   <p><strong>Email:</strong> {{ worker.email|default:"-" }}</p>
   <p><strong>Position:</strong> {{ worker.position.name|default:"-" }}</p>
 
-  <h4>Tasks</h4>
+  <h4>Uncompleted tasks</h4>
   <ul>
-    {% for task in worker.tasks.all %}
+    {% for task in uncompleted_tasks %}
       <li>
         <a href="{% url 'task_manager:task-detail' pk=task.id %}">{{ task.name }}</a>
-        ({{ task.is_completed|yesno:"done,not done" }})
+        (deadline: {{ task.deadline }})
+        {% if task.is_overdue %}<span class="badge badge-danger">Overdue</span>{% endif %}
       </li>
     {% empty %}
-      <li>No tasks assigned.</li>
+      <li>No uncompleted tasks.</li>
+    {% endfor %}
+  </ul>
+
+  <h4>Completed tasks</h4>
+  <ul>
+    {% for task in completed_tasks %}
+      <li>
+        <a href="{% url 'task_manager:task-detail' pk=task.id %}">{{ task.name }}</a>
+      </li>
+    {% empty %}
+      <li>No completed tasks.</li>
     {% endfor %}
   </ul>
 {% endblock %}

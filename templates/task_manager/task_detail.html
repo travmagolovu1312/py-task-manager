@@ -6,6 +6,19 @@
     <a href="{% url 'task_manager:task-update' pk=task.id %}" class="btn btn-secondary">Update</a>
     <a href="{% url 'task_manager:task-delete' pk=task.id %}" class="btn btn-danger">Delete</a>
   </h1>
+  <form method="post" action="{% url 'task_manager:toggle-task-completed' pk=task.id %}" class="d-inline">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-{% if task.is_completed %}secondary{% else %}success{% endif %}">
+    {% if task.is_completed %}Mark as not done{% else %}Mark as done{% endif %}
+  </button>
+  </form>
+
+  <form method="post" action="{% url 'task_manager:toggle-assign-to-task' pk=task.id %}" class="d-inline">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-primary">
+    {% if user in task.assignees.all %}Remove me from this task{% else %}Assign me to this task{% endif %}
+  </button>
+  </form>
 
   <p><strong>Type:</strong> {{ task.task_type.name }}</p>
   <p><strong>Priority:</strong> {{ task.get_priority_display }}</p>
