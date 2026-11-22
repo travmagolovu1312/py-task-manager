@@ -12,7 +12,7 @@ urlpatterns = [
     path("tasks/<int:pk>/update/", views.TaskUpdateView.as_view(), name="task-update"),
     path("tasks/<int:pk>/delete/", views.TaskDeleteView.as_view(), name="task-delete"),
     path("workers/", views.WorkerListView.as_view(), name="worker-list"),
-    path("workers/create/", views.WorkerCreateView.as_view(), name="worker-create"),
+    path("workers/create/", views.WorkerCreationView.as_view(), name="worker-create"),
     path("workers/<int:pk>/", views.WorkerDetailView.as_view(), name="worker-detail"),
     path("workers/<int:pk>/update/", views.WorkerUpdateView.as_view(), name="worker-update"),
     path("workers/<int:pk>/delete/", views.WorkerDeleteView.as_view(), name="worker-delete"),
@@ -24,4 +24,6 @@ urlpatterns = [
     path("task-types/create/", views.TaskTypeCreateView.as_view(), name="task-type-create"),
     path("task-types/<int:pk>/update/", views.TaskTypeUpdateView.as_view(), name="task-type-update"),
     path("task-types/<int:pk>/delete/", views.TaskTypeDeleteView.as_view(), name="task-type-delete"),
+    path("tasks/<int:pk>/toggle-completed/", views.toggle_task_completed, name="toggle-task-completed"),
+    path("tasks/<int:pk>/toggle-assign/", views.toggle_assign_to_task, name="toggle-assign-to-task"),
 ]

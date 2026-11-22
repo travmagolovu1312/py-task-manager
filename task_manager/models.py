@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from datetime import date
 
 class Position(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -62,6 +63,10 @@ class Task(models.Model):
 
     class Meta:
         ordering = ["is_completed", "deadline"]
+
+    @property
+    def is_overdue(self):
+        return not self.is_completed and self.deadline < date.today()
 
     def __str__(self):
         return self.name
