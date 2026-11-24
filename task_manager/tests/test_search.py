@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from task_manager.models import Task, TaskType
+from task_manager.models import Task, TaskType, Tag
 
 
 class SearchTests(TestCase):
@@ -48,3 +48,13 @@ class SearchTests(TestCase):
         response = self.client.get(reverse("task_manager:task-list"), {"name": "Report"})
         self.assertContains(response, "page=2")
         self.assertContains(response, "name=Report")
+
+    def test_filter_tasks_by_tag(self):
+        tag = Tag.objects.create(name="python")
+        tagged = self._task("Tagged task")
+        tagged.tags.add(tag)
+        self._task("Other task")
+        response = self.client.get(
+            reverse("task_manager:task-list"), {"tag": "python"}
+        )
+        self.assertEqual(list(response.context["task_list"]), [tagged])

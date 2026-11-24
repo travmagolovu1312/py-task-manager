@@ -3,7 +3,7 @@ from datetime import date, timedelta
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from task_manager.models import Position, Task, TaskType
+from task_manager.models import Position, Task, TaskType, Tag
 
 
 class ModelTests(TestCase):
@@ -39,3 +39,14 @@ class ModelTests(TestCase):
         )
         task.assignees.add(self.worker)
         self.assertIn(task, self.worker.tasks.all())
+
+    def test_tag_str(self):
+        self.assertEqual(str(Tag.objects.create(name="python")), "python")
+
+    def test_task_tags_many_to_many(self):
+        tag = Tag.objects.create(name="python")
+        task = Task.objects.create(
+            name="Refactor", deadline=date.today(), task_type=self.task_type
+        )
+        task.tags.add(tag)
+        self.assertIn(task, tag.tasks.all())
