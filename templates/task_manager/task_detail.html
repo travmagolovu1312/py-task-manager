@@ -25,7 +25,12 @@
   <p><strong>Deadline:</strong> {{ task.deadline }}</p>
   <p><strong>Completed:</strong> {{ task.is_completed|yesno:"Yes,No" }}</p>
   <p><strong>Description:</strong> {{ task.description|default:"-" }}</p>
-
+  <p>
+  <strong>Tags:</strong>
+  {% for tag in task.tags.all %}
+    <span class="badge badge-info">{{ tag.name }}</span>
+  {% empty %}-{% endfor %}
+  </p>
   <h4>Assignees</h4>
   <ul>
     {% for worker in task.assignees.all %}
@@ -35,5 +40,5 @@
     {% endfor %}
   </ul>
 
-  {# Кнопки виконання й призначення додайте на кроці 7, коли з'являться їхні URL #}
+
 {% endblock %}

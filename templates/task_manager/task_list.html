@@ -18,6 +18,7 @@
         <th>Name</th>
         <th>Type</th>
         <th>Priority</th>
+        <th>Tags</th>
         <th>Deadline</th>
         <th>Done</th>
       </tr>
@@ -26,6 +27,11 @@
           <td><a href="{% url 'task_manager:task-detail' pk=task.id %}">{{ task.name }}</a></td>
           <td>{{ task.task_type.name }}</td>
           <td>{{ task.get_priority_display }}</td>
+          <td>
+            {% for tag in task.tags.all %}
+              <a href="?tag={{ tag.name|urlencode }}" class="badge badge-info">{{ tag.name }}</a>
+            {% empty %}-{% endfor %}
+          </td>
           <td>
             {{ task.deadline }}
             {% if task.is_overdue %}<span class="badge badge-danger">Overdue</span>{% endif %}
