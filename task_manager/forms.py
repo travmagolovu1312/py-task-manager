@@ -1,12 +1,17 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from task_manager.models import Task, Worker
+from task_manager.models import Task, Worker, Tag
 
 
 class TaskForm(forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(
         queryset=Worker.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=False,
     )

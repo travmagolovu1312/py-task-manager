@@ -17,7 +17,7 @@ from task_manager.forms import (
     PositionSearchForm,
     WorkerUpdateForm,
 )
-from task_manager.models import Position, Task, TaskType, Worker
+from task_manager.models import Position, Task, TaskType, Worker, Tag
 
 
 @login_required
@@ -43,10 +43,15 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        queryset = Task.objects.select_related("task_type")
+        queryset = Task.objects.select_related("task_type").prefetch_related(
+            "tags"
+        )
         form = TaskSearchForm(self.request.GET)
         if form.is_valid():
-            return queryset.filter(name__icontains=form.cleaned_data["name"])
+            queryset = queryset.filter(name__icontains=form.cleaned_data["name"])
+        tag = self.request.GET.get("tag")
+        if tag:
+            queryset = queryset.filter(tags__name=tag)
         return queryset
 
 
@@ -113,17 +118,6 @@ class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Worker
     form_class = WorkerUpdateForm
     success_url = reverse_lazy("task_manager:worker-list")
-
-
-class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
-    model = Worker
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        tasks = self.object.tasks.select_related("task_type")
-        context["completed_tasks"] = tasks.filter(is_completed=True)
-        context["uncompleted_tasks"] = tasks.filter(is_completed=False)
-        return context
 
 
 class PositionListView(LoginRequiredMixin, generic.ListView):
@@ -221,3 +215,25 @@ def toggle_assign_to_task(request, pk):
 class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Worker
     success_url = reverse_lazy("task_manager:worker-list")
+
+
+class TagListView(LoginRequiredMixin, generic.ListView):
+    model = Tag
+    paginate_by = 5
+
+
+class TagCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Tag
+    fields = "__all__"
+    success_url = reverse_lazy("task_manager:tag-list")
+
+
+class TagUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Tag
+    fields = "__all__"
+    success_url = reverse_lazy("task_manager:tag-list")
+
+
+class TagDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Tag
+    success_url = reverse_lazy("task_manager:tag-list")

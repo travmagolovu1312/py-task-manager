@@ -26,4 +26,8 @@ urlpatterns = [
     path("task-types/<int:pk>/delete/", views.TaskTypeDeleteView.as_view(), name="task-type-delete"),
     path("tasks/<int:pk>/toggle-completed/", views.toggle_task_completed, name="toggle-task-completed"),
     path("tasks/<int:pk>/toggle-assign/", views.toggle_assign_to_task, name="toggle-assign-to-task"),
+    path("tags/", views.TagListView.as_view(), name="tag-list"),
+    path("tags/create/", views.TagCreateView.as_view(), name="tag-create"),
+    path("tags/<int:pk>/update/", views.TagUpdateView.as_view(), name="tag-update"),
+    path("tags/<int:pk>/delete/", views.TagDeleteView.as_view(), name="tag-delete"),
 ]
