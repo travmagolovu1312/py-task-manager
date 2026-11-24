@@ -6,7 +6,7 @@
           <div class="container-fluid">
             <a class="navbar-brand font-weight-bolder ms-sm-3" 
                href="/" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom">
-              Soft UI Design System
+              Task Manager
             </a>
             <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon mt-2">
@@ -19,7 +19,7 @@
               <ul class="navbar-nav navbar-nav-hover ms-lg-12 ps-lg-5 w-100">
                 <li class="nav-item dropdown dropdown-hover mx-2">
                   <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
-                    Pages
+                    Worker list
                     <img src="{{ ASSETS_ROOT }}/img/down-arrow-dark.svg" alt="down-arrow" class="arrow ms-1">
                   </a>
                   <div class="dropdown-menu dropdown-menu-animation dropdown-md p-3 border-radius-lg mt-0 mt-lg-3" aria-labelledby="dropdownMenuPages">
@@ -42,13 +42,13 @@
                             </svg>
                           </div>
                         </div>
-                        Landing Pages
+                        Workers
                       </h6>
-                      <a href="/page-about-us.html" class="dropdown-item border-radius-md">
-                        About Us
+                      <a href=" {% url 'task_manager:worker-list' %}" class="dropdown-item border-radius-md">
+                      Workers
                       </a>
-                      <a href="/page-contact-us.html" class="dropdown-item border-radius-md">
-                        Contact Us
+                      <a href=" {% url 'task_manager:worker-create' %}" class="dropdown-item border-radius-md">
+                        Create Worker
                       </a>
                       <a href="/page-author.html" class="dropdown-item border-radius-md">
                         Author
@@ -73,10 +73,10 @@
                         </div>
                         Account
                       </h6>
-                      <a href="/page-sign-in.html" class="dropdown-item border-radius-md">
-                        Sign In
+                      <a href="{% url 'login' %}" class="dropdown-item border-radius-md">
+                        Login
                       </a>
-                      <a href="/page-sign-up.html" class="dropdown-item border-radius-md">
+                      <a href="/" class="dropdown-item border-radius-md">
                         Register
                       </a>
                       <a href="/page-404.html" class="dropdown-item border-radius-md">
