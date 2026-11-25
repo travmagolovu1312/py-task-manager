@@ -76,7 +76,9 @@ class Task(models.Model):
 
     @property
     def is_overdue(self):
-        return not self.is_completed and self.deadline < date.today()
+        if self.is_completed or not self.deadline:
+            return False
+        return self.deadline < date.today()
 
     def __str__(self):
         return self.name

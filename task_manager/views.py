@@ -1,6 +1,8 @@
+from django.contrib.auth import login
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.http import HttpResponseRedirect
@@ -197,7 +199,7 @@ def toggle_task_completed(request, pk):
     task = get_object_or_404(Task, pk=pk)
     if request.method == "POST":
         task.is_completed = not task.is_completed
-        task.save()
+        task.save(update_fields=["is_completed"])
     return HttpResponseRedirect(reverse("task_manager:task-detail", args=[pk]))
 
 
@@ -237,3 +239,20 @@ class TagUpdateView(LoginRequiredMixin, generic.UpdateView):
 class TagDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Tag
     success_url = reverse_lazy("task_manager:tag-list")
+
+
+class RegisterView(generic.CreateView):
+    model = Worker
+    form_class = WorkerCreationForm
+    template_name = "registration/register.html"
+    success_url = reverse_lazy("task_manager:index")
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("task_manager:index")
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        login(self.request, self.object)
+        return response
