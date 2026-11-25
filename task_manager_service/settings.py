@@ -77,6 +77,8 @@ AUTH_USER_MODEL = "task_manager.Worker"
 
 LOGIN_REDIRECT_URL = "/"
 
+LOGOUT_REDIRECT_URL = "login"
+
 WSGI_APPLICATION = "task_manager_service.wsgi.application"
 
 
