@@ -50,8 +50,8 @@
                       <a href=" {% url 'task_manager:worker-create' %}" class="dropdown-item border-radius-md">
                         Create Worker
                       </a>
-                      <a href="/page-author.html" class="dropdown-item border-radius-md">
-                        Author
+                      <a href="{% url 'task_manager:position-list' %}" class="dropdown-item border-radius-md">
+                        Positions
                       </a>
                       <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center px-0 mt-3">
                         <div class="d-inline-block">
@@ -76,7 +76,7 @@
                       <a href="{% url 'login' %}" class="dropdown-item border-radius-md">
                         Login
                       </a>
-                      <a href="/" class="dropdown-item border-radius-md">
+                      <a href="{% url 'task_manager:register' %}" class="dropdown-item border-radius-md">
                         Register
                       </a>
                       <a href="/page-404.html" class="dropdown-item border-radius-md">
@@ -133,7 +133,7 @@
                         </div>
                         Account
                       </h6>
-                      <a href="/page-sign-in.html" class="dropdown-item border-radius-md">
+                      <a href="{% url 'task_manager:register' %}" class="dropdown-item border-radius-md">
                         Sign In
                       </a>
                     </div>
@@ -152,23 +152,8 @@
                             <div class="icon h-10 me-3 d-flex mt-1">
                               <i class="ni ni-single-copy-04 text-gradient text-primary"></i>
                             </div>
-                            <div class="w-100 d-flex align-items-center justify-content-between">
-                              <div>
-                                <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">Page Sections</h6>
-                                <span class="text-sm">See all sections</span>
-                              </div>
-                              <img src="{{ ASSETS_ROOT }}/img/down-arrow.svg" alt="down-arrow" class="arrow">
-                            </div>
                           </div>
                         </a>
-                        <div class="dropdown-menu mt-0 py-3 px-2 mt-3" aria-labelledby="pageSections">
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/page-sections-hero-sections.html">
-                            Page Headers
-                          </a>
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/page-sections-features.html">
-                            Features
-                          </a>
-                        </div>
                       </li>
                       <li class="nav-item dropdown dropdown-hover dropdown-subitem">
                         <a class="dropdown-item py-2 ps-3 border-radius-md" href="/">
@@ -186,67 +171,14 @@
                           </div>
                         </a>
                         <div class="dropdown-menu mt-0 py-3 px-2 mt-3" aria-labelledby="pageSections">
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/navigation-navbars.html">
-                            Navbars
-                          </a>
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/navigation-nav-tabs.html">
-                            Nav Tabs
-                          </a>
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/navigation-pagination.html">
-                            Pagination
+                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="{% url 'task_manager:task-list' %}">
+                            All tasks
                           </a>
                         </div>
                       </li>
-                      <li class="nav-item dropdown dropdown-hover dropdown-subitem">
-                        <a class="dropdown-item py-2 ps-3 border-radius-md" href="/">
-                          <div class="d-flex">
-                            <div class="icon h-10 me-3 d-flex mt-1">
-                              <i class="ni ni-badge text-gradient text-primary"></i>
-                            </div>
-                            <div class="w-100 d-flex align-items-center justify-content-between">
-                              <div>
-                                <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">Input Areas</h6>
-                                <span class="text-sm">See all input areas</span>
-                              </div>
-                              <img src="{{ ASSETS_ROOT }}/img/down-arrow.svg" alt="down-arrow" class="arrow">
-                            </div>
-                          </div>
-                        </a>
-                        <div class="dropdown-menu mt-0 py-3 px-2 mt-3" aria-labelledby="pageSections">
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/input-areas-inputs.html">
-                            Inputs
-                          </a>
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/input-areas-forms.html">
-                            Forms
-                          </a>
-                        </div>
                       </li>
-                      <li class="nav-item dropdown dropdown-hover dropdown-subitem">
-                        <a class="dropdown-item py-2 ps-3 border-radius-md" href="/">
-                          <div class="d-flex">
-                            <div class="icon h-10 me-3 d-flex mt-1">
-                              <i class="ni ni-notification-70 text-gradient text-primary"></i>
-                            </div>
-                            <div class="w-100 d-flex align-items-center justify-content-between">
-                              <div>
-                                <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">Attention Catchers</h6>
-                                <span class="text-sm">See all examples</span>
-                              </div>
-                              <img src="{{ ASSETS_ROOT }}/img/down-arrow.svg" alt="down-arrow" class="arrow">
-                            </div>
-                          </div>
                         </a>
-                        <div class="dropdown-menu mt-0 py-3 px-2 mt-3" aria-labelledby="pageSections">
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/attention-catchers-alerts.html">
-                            Alerts
-                          </a>
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/attention-catchers-modals.html">
-                            Modals
-                          </a>
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/attention-catchers-tooltips-popovers.html">
-                            Tooltips & Popovers
-                          </a>
-                        </div>
+
                       </li>
                       <li class="nav-item dropdown dropdown-hover dropdown-subitem">
                         <a class="dropdown-item py-2 ps-3 border-radius-md" href="/">
@@ -256,38 +188,6 @@
                             </div>
                             <div class="w-100 d-flex align-items-center justify-content-between">
                               <div>
-                                <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">Elements</h6>
-                                <span class="text-sm">See all elements</span>
-                              </div>
-                              <img src="{{ ASSETS_ROOT }}/img/down-arrow.svg" alt="down-arrow" class="arrow">
-                            </div>
-                          </div>
-                        </a>
-                        <div class="dropdown-menu mt-0 py-3 px-2 mt-3" aria-labelledby="pageSections">
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/elements-buttons.html">
-                            Buttons
-                          </a>
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/elements-avatars.html">
-                            Avatars
-                          </a>
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/elements-dropdowns.html">
-                            Dropdowns
-                          </a>
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/elements-toggles.html">
-                            Toggles
-                          </a>
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/elements-breadcrumbs.html">
-                            Breadcrumbs
-                          </a>
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/elements-badges.html">
-                            Badges
-                          </a>
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/elements-typography.html">
-                            Typography
-                          </a>
-                          <a class="dropdown-item ps-3 border-radius-md mb-1" href="/elements-progress-bars.html">
-                            Progress Bars
-                          </a>
                         </div>
                       </li>
                     </div>
@@ -303,12 +203,7 @@
                             </div>
                           </div>
                         </div>
-                        <a class="dropdown-item ps-3 border-radius-md mb-1" href="/page-sections-hero-sections.html">
-                          Page Headers
-                        </a>
-                        <a class="dropdown-item ps-3 border-radius-md mb-1" href="/page-sections-features.html">
-                          Features
-                        </a>
+
                         <div class="d-flex mb-2 mt-3">
                           <div class="icon h-10 me-3 d-flex mt-1">
                             <i class="ni ni-laptop text-gradient text-primary"></i>
@@ -414,8 +309,7 @@
                           href="https://appseed.us/support">
                           <div class="d-flex">
                             <div class="icon h-10 me-3 d-flex mt-1">
-                              <svg class="text-secondary" width="16px" height="16px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>settings</title>
+
                                 <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                   <g id="Rounded-Icons" transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
                                     <g id="Icons-with-opacity" transform="translate(1716.000000, 291.000000)">
@@ -430,10 +324,6 @@
                               </svg>
                             </div>
                             <div>
-                              <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">Support</h6>
-                              <span class="text-sm">
-                                Github (issues tracker) and Discord - 24/7 LIVE Service 
-                              </span>
                             </div>
                           </div>
                         </a>
@@ -445,8 +335,8 @@
                           href="https://bit.ly/2NiYjQA">
                           <div class="d-flex">
                             <div class="icon h-10 me-3 d-flex mt-1">
-                              <svg class="text-secondary" width="16px" height="16px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>spaceship</title>
+
+
                                 <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                   <g id="Rounded-Icons" transform="translate(-1720.000000, -592.000000)" fill="#FFFFFF" fill-rule="nonzero">
                                     <g id="Icons-with-opacity" transform="translate(1716.000000, 291.000000)">
@@ -460,10 +350,6 @@
                                   </g>
                                 </g>
                               </svg>
-                            </div>
-                            <div>
-                              <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">UI - Getting Started</h6>
-                              <span class="text-sm">All about overview, quick start, license and contents</span>
                             </div>
                           </div>
                         </a>
@@ -596,15 +482,15 @@
                   </ul>
                 </li>
                 <li class="nav-item ms-lg-auto">
-                  <a class="nav-link nav-link-icon me-2" href="{% url 'logout' %}">
+                  <a class="nav-link nav-link-icon me-2" href="{% url 'login' %}">
                     <i class="fa fa-sign-out me-1"></i>
                     <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Logout">Logout</p>
                   </a>
                 </li>
                 <li class="nav-item my-auto ms-3 ms-lg-0">
-                  <a href="https://appseed.us/product/soft-ui-design-pro/django/"
+                  <a href="https://github.com/travmagolovu1312/py-task-manager"
                      target="_blank"
-                     class="btn btn-sm  bg-gradient-primary btn-round mb-0 me-1 mt-2 mt-md-0">PRO Version</a>
+                     class="btn btn-sm  bg-gradient-primary btn-round mb-0 me-1 mt-2 mt-md-0">Project on GitHub</a>
                 </li>
               </ul>
             </div>

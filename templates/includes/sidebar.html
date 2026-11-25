@@ -8,7 +8,8 @@
       </form>
     </li>
   {% else %}
-    <li class="list-group-item"><a href="{% url 'login' %}">Login</a></li>
+  <li class="list-group-item"><a href="{% url 'login' %}">Login</a></li>
+  <li class="list-group-item"><a href="{% url 'task_manager:register' %}">Register</a></li>
   {% endif %}
   <br>
   <li class="list-group-item"><a href="{% url 'task_manager:index' %}">Home</a></li>
