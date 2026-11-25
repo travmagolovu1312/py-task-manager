@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from task_manager.models import Position, Task, TaskType, Worker, Tag
+from task_manager.models import Task, TaskType, Worker, Tag
+
 
 @admin.register(Worker)
 class WorkerAdmin(UserAdmin):
@@ -9,8 +10,10 @@ class WorkerAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
         ("Additional info", {"fields": ("position",)}),)
     add_fieldsets = UserAdmin.add_fieldsets + (
-        ("Additional info", {"fields": ("first_name", "last_name",
-                                    "position")}),
+        ("Additional info", {"fields": (
+            "first_name",
+            "last_name",
+            "position")}),
     )
 
 
@@ -29,6 +32,7 @@ class TaskAdmin(admin.ModelAdmin):
         "is_completed",
     )
     search_fields = ("name",)
+
 
 admin.site.register(Tag)
 admin.site.register(TaskType)

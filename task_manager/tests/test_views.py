@@ -29,7 +29,10 @@ class LoginRequiredTests(TestCase):
 
 class TaskViewTests(BaseTestCase):
     def test_toggle_completed_flips_state(self):
-        url = reverse("task_manager:toggle-task-completed", args=[self.task.pk])
+        url = reverse(
+            "task_manager:toggle-task-completed",
+            args=[self.task.pk]
+        )
         self.client.post(url)
         self.task.refresh_from_db()
         self.assertTrue(self.task.is_completed)
@@ -38,13 +41,19 @@ class TaskViewTests(BaseTestCase):
         self.assertFalse(self.task.is_completed)
 
     def test_toggle_completed_ignores_get(self):
-        url = reverse("task_manager:toggle-task-completed", args=[self.task.pk])
+        url = reverse(
+            "task_manager:toggle-task-completed",
+            args=[self.task.pk]
+        )
         self.client.get(url)
         self.task.refresh_from_db()
         self.assertFalse(self.task.is_completed)
 
     def test_toggle_assign_adds_and_removes_user(self):
-        url = reverse("task_manager:toggle-assign-to-task", args=[self.task.pk])
+        url = reverse(
+            "task_manager:toggle-assign-to-task",
+            args=[self.task.pk]
+        )
         self.client.post(url)
         self.assertIn(self.user, self.task.assignees.all())
         self.client.post(url)
@@ -66,4 +75,5 @@ class TaskViewTests(BaseTestCase):
         url = reverse("task_manager:worker-detail", args=[self.user.pk])
         response = self.client.get(url)
         self.assertEqual(list(response.context["completed_tasks"]), [done])
-        self.assertEqual(list(response.context["uncompleted_tasks"]), [self.task])
+        self.assertEqual(list(
+            response.context["uncompleted_tasks"]), [self.task])

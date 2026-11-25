@@ -23,5 +23,3 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("", include("task_manager.urls", namespace="task_manager")),
 ]
-
-

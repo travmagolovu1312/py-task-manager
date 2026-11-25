@@ -33,6 +33,7 @@ def index(request):
     }
     return render(request, "task_manager/index.html", context)
 
+
 class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
     paginate_by = 5
@@ -50,7 +51,9 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         )
         form = TaskSearchForm(self.request.GET)
         if form.is_valid():
-            queryset = queryset.filter(name__icontains=form.cleaned_data["name"])
+            queryset = (
+                queryset.filter(name__icontains=form.cleaned_data["name"])
+            )
         tag = self.request.GET.get("tag")
         if tag:
             queryset = queryset.filter(tags__name=tag)

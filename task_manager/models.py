@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from datetime import date
 
+
 class Position(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
@@ -47,6 +48,7 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
+
 class Task(models.Model):
     class Priority(models.TextChoices):
         URGENT = "urgent", "Urgent"
@@ -82,4 +84,3 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
-

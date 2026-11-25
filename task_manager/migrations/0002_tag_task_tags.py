@@ -13,7 +13,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Tag',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                                           primary_key=True,
+                                           serialize=False,
+                                           verbose_name='ID')),
                 ('name', models.CharField(max_length=63, unique=True)),
             ],
             options={
@@ -23,6 +26,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='task',
             name='tags',
-            field=models.ManyToManyField(blank=True, related_name='tasks', to='task_manager.tag'),
+            field=models.ManyToManyField(blank=True,
+                                         related_name='tasks',
+                                         to='task_manager.tag'),
         ),
     ]
