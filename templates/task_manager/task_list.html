@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <h1>
+    Task list
+    <a href="{% url 'task_manager:task-create' %}" class="btn btn-primary">Create</a>
+  </h1>
+
+  <form method="get" action="" class="form-inline mb-3">
+    {{ search_form|crispy }}
+    <input type="submit" value="Search" class="btn btn-secondary ml-2">
+  </form>
+
+  {% if task_list %}
+    <table class="table">
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Priority</th>
+        <th>Tags</th>
+        <th>Deadline</th>
+        <th>Done</th>
+      </tr>
+      {% for task in task_list %}
+        <tr {% if task.is_overdue %}class="table-danger"{% endif %}>
+          <td><a href="{% url 'task_manager:task-detail' pk=task.id %}">{{ task.name }}</a></td>
+          <td>{{ task.task_type.name }}</td>
+          <td>{{ task.get_priority_display }}</td>
+          <td>
+            {% for tag in task.tags.all %}
+              <a href="?tag={{ tag.name|urlencode }}" class="badge badge-info">{{ tag.name }}</a>
+            {% empty %}-{% endfor %}
+          </td>
+          <td>
+            {{ task.deadline }}
+            {% if task.is_overdue %}<span class="badge badge-danger">Overdue</span>{% endif %}
+          </td>
+          <td>{{ task.is_completed|yesno:"Yes,No" }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>There are no tasks.</p>
+  {% endif %}
+
+  {% include "includes/pagination.html" %}
+{% endblock %}
